@@ -7,10 +7,12 @@ package packVue;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -18,11 +20,12 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 
 
-public class VueAuth extends javax.swing.JPanel {
+public class VueAuth extends JPanel {
 
 
     public VueAuth() {
         initComponents();
+        jButton1.addActionListener(new Ecouteur_Connexion());
     }
 
     @SuppressWarnings("unchecked")
@@ -129,6 +132,7 @@ public class VueAuth extends javax.swing.JPanel {
                         .addGap(46, 46, 46)
                         .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         );
+        
     }
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -148,4 +152,15 @@ public class VueAuth extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField2;
     
+    public class Ecouteur_Connexion implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==jButton1){
+                System.out.println("Affichage de la connexion");
+            }
+           
+        }
+        
+    }
 }
