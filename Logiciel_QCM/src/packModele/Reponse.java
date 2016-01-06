@@ -12,4 +12,10 @@ package packModele;
 public class Reponse {
     private String description;
     private boolean est_juste;
+    
+    // Constructeur de la réponse
+    public Reponse(String description, boolean est_juste) {
+        this.description = description;
+        this.est_juste = est_juste;
+    }
 }

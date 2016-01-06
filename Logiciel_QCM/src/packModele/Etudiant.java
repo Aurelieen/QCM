@@ -16,4 +16,18 @@ public class Etudiant extends Personne {
     private int id_etudiant;
     private String classe;
     private ArrayList<QCM> questionnaires;      // Garder les QCM auxquels l'étudiant a répondu, répond ou doit répondre.
+    
+    // Constructeur de l'étudiant
+    public Etudiant() {
+        super();
+    }
+    
+    // Méthodes de l'étudiant
+    public float repondreQCM() {
+        return (float) 0.0;
+    }
+    
+    public ArrayList<QCM> recupererQCM() {
+        return null;
+    }
 }

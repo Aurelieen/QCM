@@ -6,6 +6,7 @@
 package packVue;
 
 import javax.swing.JPanel;
+import packModele.Enseignant;
 
 /**
  *
