@@ -5,10 +5,13 @@
  */
 package packVue;
 
+import javax.swing.JPanel;
+import packModele.Personne;
+
 /**
  *
  * @author Admin
  */
 public class VueAuth extends JPanel {
-    
+    private Personne personne;
 }

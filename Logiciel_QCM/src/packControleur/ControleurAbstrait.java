@@ -5,10 +5,21 @@
  */
 package packControleur;
 
+import java.util.ArrayList;
+import packModele.Personne;
+
 /**
  *
  * @author Admin
  */
 public abstract class ControleurAbstrait {
+    protected Personne personne;                    // Accès au modèle depuis le contrôleur.
     
+    // Constructeur et affectation de personne
+    public ControleurAbstrait(Personne personne) {
+        this.personne = personne;
+    }
+    
+    // Méthode de contrôle abstraite, à spécifier dans les classes filles
+    public abstract void control(ArrayList<String> donnees);
 }

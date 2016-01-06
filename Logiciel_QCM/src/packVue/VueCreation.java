@@ -5,10 +5,13 @@
  */
 package packVue;
 
+import javax.swing.JPanel;
+import packModele.Enseignant;
+
 /**
  *
  * @author Admin
  */
-public class VueCreation {
-    
+public class VueCreation extends JPanel {
+    private Enseignant enseignant;
 }

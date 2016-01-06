@@ -5,10 +5,20 @@
  */
 package packControleur;
 
+import java.util.ArrayList;
+import packModele.Personne;
+
 /**
  *
  * @author Admin
  */
 public class ContrAjout extends ControleurAbstrait {
+    public ContrAjout(Personne personne) {
+        super(personne);
+    }
     
+    @Override
+    public void control(ArrayList<String> donnees) {
+        ;
+    }    
 }

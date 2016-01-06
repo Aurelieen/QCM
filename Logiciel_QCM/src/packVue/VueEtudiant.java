@@ -12,5 +12,5 @@ import javax.swing.JPanel;
  * @author Admin
  */
 public class VueEtudiant extends JPanel {
-    
+    private Etudiant etudiant;
 }

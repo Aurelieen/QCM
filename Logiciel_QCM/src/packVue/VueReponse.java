@@ -6,11 +6,12 @@
 package packVue;
 
 import javax.swing.JPanel;
+import packModele.Etudiant;
 
 /**
  *
  * @author Admin
  */
 public class VueReponse extends JPanel {
-    
+    private Etudiant etudiant;
 }

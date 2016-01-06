@@ -6,11 +6,12 @@
 package packVue;
 
 import javax.swing.JDialog;
+import packModele.Enseignant;
 
 /**
  *
  * @author Admin
  */
 public class VueDetails extends JDialog {
-    
+    private Enseignant enseignant;
 }
