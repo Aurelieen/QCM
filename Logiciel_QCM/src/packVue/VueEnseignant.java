@@ -5,6 +5,10 @@
  */
 package packVue;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +34,7 @@ public class VueEnseignant extends javax.swing.JPanel {
      */
     public VueEnseignant() {
         initComponents();
+        jButton1.addActionListener(new Ecouteur_AccesGestion());
     }
 
     /**
@@ -105,6 +110,10 @@ public class VueEnseignant extends javax.swing.JPanel {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+               @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         });
         jTable2.setSelectionBackground(new java.awt.Color(255, 204, 0));
         jTable2.setSelectionForeground(new java.awt.Color(0, 0, 0));
@@ -162,5 +171,13 @@ public class VueEnseignant extends javax.swing.JPanel {
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
     
-    
+     public class Ecouteur_AccesGestion implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           if(e.getSource()==jButton1){
+               System.out.println("Création d'un QCM");
+           }
+        }
+     }
 }
