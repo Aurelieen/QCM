@@ -5,6 +5,7 @@
  */
 package packModele;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,6 +22,15 @@ public class Enseignant extends Personne {
     // Constructeur de l'enseignant
     public Enseignant() {
         super();
+    }
+    
+    // Méthodes héritées de la personne
+    /*
+        La surcharge permet de définir ses classes
+    */
+    @Override
+    public void connecter(String login, String mot_de_passe) throws SQLException {
+        super.connecter(login, mot_de_passe);
     }
     
     // Méthodes de l'enseignant
