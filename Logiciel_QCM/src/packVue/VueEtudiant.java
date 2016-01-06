@@ -2,6 +2,10 @@ package packVue;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,6 +20,7 @@ public class VueEtudiant extends javax.swing.JPanel {
 
     public VueEtudiant() {
         initComponents();
+        jLabel4.addMouseListener(new Ecouteur_AccesReponse());
     }
 
     @SuppressWarnings("unchecked")
@@ -76,6 +81,11 @@ public class VueEtudiant extends javax.swing.JPanel {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+           
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         });
         jTable1.setSelectionBackground(new Color(255, 204, 0));
         jTable1.setSelectionForeground(new Color(0, 0, 0));
@@ -106,7 +116,13 @@ public class VueEtudiant extends javax.swing.JPanel {
             new String [] {
                 "QCM", "Date de fin", "Note"
             }
-        ));
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        
         jTable2.setSelectionBackground(new Color(255, 204, 0));
         jTable2.setSelectionForeground(new Color(0, 0, 0));
         jScrollPane2.setViewportView(jTable2);
@@ -168,5 +184,25 @@ public class VueEtudiant extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    // End of variables declaration//GEN-END:variables
+   
+    public class Ecouteur_AccesReponse implements ActionListener, MouseListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(e.getSource()==jLabel4){
+                System.out.println("Actualisation de la page");
+        }
+        }
+        @Override public void mousePressed(MouseEvent e) { ; }
+        @Override public void mouseReleased(MouseEvent e) { ; }
+        @Override public void mouseEntered(MouseEvent e) { ; }
+        @Override public void mouseExited(MouseEvent e) { ; }
+        
+    }
+    
 }
