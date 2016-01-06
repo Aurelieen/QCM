@@ -29,8 +29,8 @@ public class Enseignant extends Personne {
         La surcharge permet de définir ses classes
     */
     @Override
-    public void connecter(String login, String mot_de_passe) throws SQLException {
-        super.connecter(login, mot_de_passe);
+    public boolean connecter(String login, String mot_de_passe, boolean ens) throws SQLException {
+        return super.connecter(login, mot_de_passe, ens);
     }
     
     // Méthodes de l'enseignant

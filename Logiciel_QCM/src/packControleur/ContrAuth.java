@@ -6,6 +6,8 @@
 package packControleur;
 
 import java.util.ArrayList;
+import packModele.Enseignant;
+import packModele.Etudiant;
 import packModele.Personne;
 
 /**
@@ -19,6 +21,19 @@ public class ContrAuth extends ControleurAbstrait {
     
     @Override
     public void control(ArrayList<String> donnees) {
-        ;
+        /*
+            Format des données du contrôleur d'authentification :
+                - Tableau de chaînes de caractères ;
+                    - donnees.get(0) est l'identifiant préfixé
+                    - donnees.get(1) est le mot de passe
+        */
+        
+        if (donnees.get(0).startsWith("etu")) {
+            personne = new Etudiant();
+        } else if (donnees.get(0).startsWith("ens")) {
+            personne = new Enseignant();
+        } else {
+            ;       // Identifiant correct
+        }
     }
 }
