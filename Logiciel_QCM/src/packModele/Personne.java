@@ -35,16 +35,16 @@ public class Personne {
         
         // Vérification de l'existence du compte
         if (ens) {
-            authentification = bd.SELECT("SELECT id_enseignant"
-                                       + "FROM Enseignant e"
+            authentification = bd.SELECT("SELECT id_enseignant "
+                                       + "FROM Enseignant e "
                                        + "WHERE e.id_enseignant LIKE '" + id + "' AND e.password_enseignant LIKE '" + mot_de_passe + "'");
         
             while (authentification.next()) {
                 id_personne = authentification.getInt(1);
             }
         } else {
-            authentification = bd.SELECT("SELECT id_etudiant"
-                                       + "FROM Etudiant e"
+            authentification = bd.SELECT("SELECT id_etudiant "
+                                       + "FROM Etudiant e "
                                        + "WHERE e.id_etudiant LIKE '" + id + "' AND e.password_etudiant LIKE '" + mot_de_passe + "'");
             
             while (authentification.next()) {
@@ -61,13 +61,13 @@ public class Personne {
             String Membre = (ens) ? "Enseignant" : "Etudiant";
             
             informations = bd.SELECT("SELECT nom_" + membre + ", prenom_" + membre + " "
-                                   + "FROM " + Membre + " e"
+                                   + "FROM " + Membre + " e "
                                    + "WHERE e.id_" + membre + " = '" + id_personne + "'");
             
             while (informations.next()) {
                 nom = informations.getString(1);
                 prenom = informations.getString(2);
-                
+                System.out.println(nom);
                 return true;
             }
             

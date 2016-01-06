@@ -30,6 +30,7 @@ public class ContrAuth extends ControleurAbstrait {
         
         if (donnees.get(0).startsWith("etu")) {
             personne = new Etudiant();
+            
         } else if (donnees.get(0).startsWith("ens")) {
             personne = new Enseignant();
         } else {
