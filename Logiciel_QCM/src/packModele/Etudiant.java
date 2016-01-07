@@ -5,8 +5,10 @@
  */
 package packModele;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import logiciel_qcm.BD;
 
 /**
  *
@@ -37,7 +39,13 @@ public class Etudiant extends Personne {
         return (float) 0.0;
     }
     
-    public ArrayList<QCM> recupererQCM() {
+    public ArrayList<QCM> recupererQCM() throws SQLException {
+        BD bd = new BD();
+        ResultSet rsQCM;
+        ArrayList<QCM> tmp = new ArrayList<>();
+        
+        // À FAIRE !
+                
         return null;
     }
 }
