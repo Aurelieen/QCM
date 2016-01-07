@@ -7,6 +7,7 @@ package logiciel_qcm;
 
 import java.sql.SQLException;
 import packModele.Enseignant;
+import packModele.Etudiant;
 import packModele.Personne;
 
 /**
@@ -19,8 +20,8 @@ public class Logiciel_QCM {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        Personne p = new Enseignant();
-        System.out.println(p.connecter("1", "bob", true));
+        /* Personne p = new Etudiant();
+        System.out.println(p.connecter("1", "bob", false)); */
     }
     
 }

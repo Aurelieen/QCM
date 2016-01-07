@@ -23,7 +23,7 @@ public class Enseignant extends Personne {
     public Enseignant() {
         super();
     }
-    
+   
     // Méthodes héritées de la personne
     /*
         La surcharge permet de définir ses classes
