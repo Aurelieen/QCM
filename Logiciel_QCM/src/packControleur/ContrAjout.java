@@ -18,7 +18,7 @@ public class ContrAjout extends ControleurAbstrait {
     }
     
     @Override
-    public void control(ArrayList<String> donnees) {
-        ;
+    public Object control(ArrayList<String> donnees) {
+        return null;
     }    
 }

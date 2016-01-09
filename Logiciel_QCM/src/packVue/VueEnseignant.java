@@ -5,6 +5,8 @@
  */
 package packVue;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,28 +17,71 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import packModele.Enseignant;
+import packModele.QCM;
 
 /**
  *
  * @author Admin
  */
 public class VueEnseignant extends javax.swing.JPanel {
-    private Enseignant enseignant;
-    
-    
-    //public class PanneauEnseignant extends javax.swing.JPanel {
-    
+    private final Enseignant enseignant;  
     
     /**
      * Creates new form PanneauEnseignant
+     * @param enseignant
      */
-    public VueEnseignant() {
+    public VueEnseignant(Enseignant enseignant) {
+        this.enseignant = enseignant;
+        
         initComponents();
-        jButton1.addActionListener(new Ecouteur_AccesGestion());
+        labelBienvenue.setText("Bienvenue, " + enseignant.prenommer() + " " + enseignant.nommer());
+        boutonCreation.addActionListener(new Ecouteur_AccesGestion());
+        
+        // Récupération des QCM dans la JTable
+        remplirTableau();
     }
+    
+    private void remplirTableau() {
+        int i = 0;
+        tableauQCM.getTableHeader().setReorderingAllowed(false);
+        tableauQCM.getTableHeader().setResizingAllowed(false);
+        
+        // Régler la taille de certaines colonnes
+        tableauQCM.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tableauQCM.getColumnModel().getColumn(1).setPreferredWidth(90);
+        
+        // Centrer la dernière colonne à l'aide d'une affectation de rendu
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setForeground(Color.decode("#D90115"));
+        tableauQCM.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        
+        // Remplir le tableau via les données des QCM
+        for (QCM qcm : enseignant.getQCM()) {
+            tableauQCM.setValueAt(qcm.getNom(), i, 0);
+            tableauQCM.setValueAt(qcm.getClasse(), i, 1);
+            tableauQCM.setValueAt(qcm.getEtat(), i, 2);
+            tableauQCM.setValueAt("Supprimer", i, 3);
 
+            i++;
+        }
+    }
+    
+    public class Ecouteur_AccesGestion implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == boutonCreation) {
+                System.out.println("Création d'un QCM");
+            } else if (e.getSource() == tableauQCM) {
+                System.out.println("Mort @ Mort");
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,11 +93,11 @@ public class VueEnseignant extends javax.swing.JPanel {
 
         jLabel2 = new JLabel();
         jLabel1 = new JLabel();
-        jLabel3 = new JLabel();
-        jLabel4 = new JLabel();
-        jButton1 = new JButton();
+        labelBienvenue = new JLabel();
+        labelSousTitre = new JLabel();
+        boutonCreation = new JButton();
         jScrollPane2 = new JScrollPane();
-        jTable2 = new JTable();
+        tableauQCM = new JTable();
         jSeparator1 = new JSeparator();
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/packVue/image/bandeau_bas.jpg"))); // NOI18N
@@ -61,20 +106,21 @@ public class VueEnseignant extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/packVue/image/bandeau_bas.jpg"))); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Bienvenue, [enseignant]");
+        labelBienvenue.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelBienvenue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelBienvenue.setText("Bienvenue, [enseignant]");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Créez ou consultez l'état de vos QCM.");
+        labelSousTitre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        labelSousTitre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelSousTitre.setText("Créez ou consultez l'état de vos QCM.");
 
-        jButton1.setText("Créer un QCM");
+        boutonCreation.setText("Créer un QCM");
+        boutonCreation.setBackground(new java.awt.Color(255, 204, 0));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(null);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableauQCM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -115,9 +161,9 @@ public class VueEnseignant extends javax.swing.JPanel {
                 return false;
             }
         });
-        jTable2.setSelectionBackground(new java.awt.Color(255, 204, 0));
-        jTable2.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane2.setViewportView(jTable2);
+        tableauQCM.setSelectionBackground(new java.awt.Color(255, 204, 0));
+        tableauQCM.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setViewportView(tableauQCM);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,14 +172,14 @@ public class VueEnseignant extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelBienvenue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelSousTitre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(178, 178, 178)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(boutonCreation, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -145,11 +191,11 @@ public class VueEnseignant extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel3)
+                .addComponent(labelBienvenue)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(labelSousTitre)
                 .addGap(40, 40, 40)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(boutonCreation, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -159,25 +205,14 @@ public class VueEnseignant extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton boutonCreation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel labelBienvenue;
+    private javax.swing.JLabel labelSousTitre;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tableauQCM;
     // End of variables declaration//GEN-END:variables
-    
-     public class Ecouteur_AccesGestion implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-           if(e.getSource()==jButton1){
-               System.out.println("Création d'un QCM");
-           }
-        }
-     }
 }

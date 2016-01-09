@@ -48,4 +48,9 @@ public class Etudiant extends Personne {
                 
         return null;
     }
+    
+    @Override
+    public String toString() {
+        return "Etudiant";
+    }
 }

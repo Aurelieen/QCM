@@ -15,10 +15,14 @@ import javax.swing.JTable;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import packModele.Etudiant;
 
 public class VueEtudiant extends javax.swing.JPanel {
-
-    public VueEtudiant() {
+    private Etudiant etudiant;
+    
+    public VueEtudiant(Etudiant etudiant) {
+        this.etudiant = etudiant;
+        
         initComponents();
         jLabel4.addMouseListener(new Ecouteur_AccesReponse());
     }

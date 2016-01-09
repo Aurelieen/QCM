@@ -21,5 +21,5 @@ public abstract class ControleurAbstrait {
     }
     
     // Méthode de contrôle abstraite, à spécifier dans les classes filles
-    public abstract void control(ArrayList<String> donnees);
+    public abstract Object control(ArrayList<String> donnees);
 }

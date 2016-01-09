@@ -5,10 +5,15 @@
  */
 package packControleur;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import packModele.Enseignant;
 import packModele.Etudiant;
 import packModele.Personne;
+import packVue.Fenetre;
+import packVue.Observateur;
 
 /**
  *
@@ -20,7 +25,7 @@ public class ContrAuth extends ControleurAbstrait {
     }
     
     @Override
-    public void control(ArrayList<String> donnees) {
+    public Object control(ArrayList<String> donnees) {
         /*
             Format des données du contrôleur d'authentification :
                 - Tableau de chaînes de caractères ;
@@ -29,11 +34,27 @@ public class ContrAuth extends ControleurAbstrait {
         */
         
         if (donnees.get(0).startsWith("etu")) {
-            personne = new Etudiant();
+            try {
+                personne = new Etudiant();
+                personne.connecter(donnees.get(0), donnees.get(1), false);
+                
+                return personne;
+            } catch (SQLException ex) { Logger.getLogger(ContrAuth.class.getName()).log(Level.SEVERE, null, ex); }
+            
         } else if (donnees.get(0).startsWith("ens")) {
-            personne = new Enseignant();
+            try {
+                personne = new Enseignant();
+                personne.connecter(donnees.get(0), donnees.get(1), true);
+                
+                return personne;
+            } catch (SQLException ex) { Logger.getLogger(ContrAuth.class.getName()).log(Level.SEVERE, null, ex); }
+            
         } else {
-            ;       // Identifiant correct
+            // On crée un faux utilisateur pour informer Fenêtre que VueAuth a mal été renseignée
+            personne = new Etudiant();      
+            return personne;
         }
+        
+        return null;
     }
 }

@@ -29,6 +29,7 @@ public class QCM {
     public QCM(int id_qcm, String nom,
                String description, String classe,
                Date date_debut, Date date_fin, boolean conformite_relative) {
+        this.id_qcm = id_qcm;
         this.nom = nom;
         this.description = description;
         this.classe = classe;
@@ -70,5 +71,27 @@ public class QCM {
         } else {
             return 1;
         }
+    }
+    
+    // Accesseurs et mutateurs
+    public String getNom() {
+        return nom;
+    }
+    
+    public String getClasse() {
+        return classe;
+    }
+    
+    public String getEtat() {
+        switch (estActuel()) {
+            case -1:
+                return "— Passé";
+            case 0:
+                return "En cours";
+            case 1:
+                return "Planifié";
+        }
+        
+        return "{Erreur}";
     }
 }
