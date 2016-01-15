@@ -15,6 +15,7 @@ import packModele.Enseignant;
 import packModele.Etudiant;
 import packModele.Personne;
 import packVue.Fenetre;
+import packVue.VueReponse;
 
 /**
  *
@@ -26,8 +27,8 @@ public class Logiciel_QCM {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        Personne persTest = new Etudiant();
-        System.out.println(persTest.toString());
+        /* Personne persTest = new Etudiant();
+        System.out.println(persTest.toString()); */
         
         // Création de la personne
         Personne p = null;

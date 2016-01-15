@@ -6,6 +6,7 @@
 package packVue;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ public class VueAuth extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == boutonConnexion){
+                VueAuth.this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 ArrayList<String> identifiants = new ArrayList();
                 
                 identifiants.add(champPseudo.getText().replaceAll("'", ""));
@@ -51,7 +53,7 @@ public class VueAuth extends JPanel {
                 personne.addObservateur((Observateur) SwingUtilities.getWindowAncestor(VueAuth.this));
                 
                 // Notifions la fenêtre de l'état de l'utilisateur
-                if ("Enseignant".equals(personne.toString())) {
+                if ("Enseignant".equals(personne.toString()) && personne.nommer() != null) {
                     personne.notifyObservateurs("connexionEns");
                 } else {
                     if ("Etudiant".equals(personne.toString()) && personne.nommer() != null) {
@@ -60,6 +62,8 @@ public class VueAuth extends JPanel {
                         personne.notifyObservateurs("connexionEchec");
                     }
                 }
+                
+                VueAuth.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }
     }
@@ -112,10 +116,11 @@ public class VueAuth extends JPanel {
         boutonConnexion.setBackground(new java.awt.Color(255, 204, 0));
         boutonConnexion.setText("Se connecter");
 
-        champPassword.setText("");
+        champPseudo.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        champPassword.setCursor(new Cursor(Cursor.TEXT_CURSOR));
 
         labelAvertissement.setHorizontalAlignment(SwingConstants.CENTER);
-        labelAvertissement.setText("N'oubliez pas de vous déconnecter après l'utilisation du logiciel.");
+        labelAvertissement.setText("Fermez le logiciel après l'avoir utilisé.");
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
@@ -177,7 +182,6 @@ public class VueAuth extends JPanel {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
    
     }
-
 
     private javax.swing.JButton boutonConnexion;
     private javax.swing.JLabel labelUtilisateur;

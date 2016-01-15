@@ -35,7 +35,6 @@ public class Fenetre extends JFrame implements Observateur {
     private VueEnseignant       vueEnseignant;
     private VueEtudiant         vueEtudiant;
     private VueReponse          vueReponse;
-    private VueDetails          vueDetails;
     
     // Contrôleurs distribués par la fenêtre aux panneaux (références)
     private ControleurAbstrait  contrAuth;
@@ -46,6 +45,7 @@ public class Fenetre extends JFrame implements Observateur {
     // Constructeur d'une fenêtre
     public Fenetre(Personne p, ControleurAbstrait contrAuth, ControleurAbstrait contrAjout, ControleurAbstrait contrReponse, ControleurAbstrait contrSuppr) {
         connecterControleurs(contrAuth, contrAjout, contrReponse, contrSuppr);
+        this.setResizable(false);
         
         vueAuth = new VueAuth(personne, contrAuth);
         this.add(vueAuth);
@@ -75,6 +75,10 @@ public class Fenetre extends JFrame implements Observateur {
                 break;
             case "connexionEtu":
                 personne = vueAuth.getPersonne();
+                this.afficherEtudiant();
+                break;
+            case "actualisation":
+                this.remove(vueEtudiant);
                 this.afficherEtudiant();
                 break;
         }

@@ -12,11 +12,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import packModele.Enseignant;
@@ -28,6 +30,7 @@ import packModele.QCM;
  */
 public class VueEnseignant extends javax.swing.JPanel {
     private final Enseignant enseignant;  
+    private VueDetails vueDetails;
     
     /**
      * Creates new form PanneauEnseignant
@@ -39,6 +42,7 @@ public class VueEnseignant extends javax.swing.JPanel {
         initComponents();
         labelBienvenue.setText("Bienvenue, " + enseignant.prenommer() + " " + enseignant.nommer());
         boutonCreation.addActionListener(new Ecouteur_AccesGestion());
+        tableauQCM.addMouseListener(new Ecouteur_AccesGestion());
         
         // Récupération des QCM dans la JTable
         remplirTableau();
@@ -61,7 +65,7 @@ public class VueEnseignant extends javax.swing.JPanel {
         
         // Remplir le tableau via les données des QCM
         for (QCM qcm : enseignant.getQCM()) {
-            tableauQCM.setValueAt(qcm.getNom(), i, 0);
+            tableauQCM.setValueAt(qcm, i, 0);
             tableauQCM.setValueAt(qcm.getClasse(), i, 1);
             tableauQCM.setValueAt(qcm.getEtat(), i, 2);
             tableauQCM.setValueAt("Supprimer", i, 3);
@@ -70,8 +74,8 @@ public class VueEnseignant extends javax.swing.JPanel {
         }
     }
     
-    public class Ecouteur_AccesGestion implements ActionListener{
-
+    public class Ecouteur_AccesGestion implements ActionListener, MouseListener {
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == boutonCreation) {
@@ -79,6 +83,39 @@ public class VueEnseignant extends javax.swing.JPanel {
             } else if (e.getSource() == tableauQCM) {
                 System.out.println("Mort @ Mort");
             }
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent me) {
+            if ((me.getSource() == tableauQCM) && (me.getClickCount() == 2)) {
+                int ligne = tableauQCM.rowAtPoint(me.getPoint());
+                int colonne = tableauQCM.columnAtPoint(me.getPoint());
+
+                if ((colonne == 0) && (tableauQCM.getValueAt(ligne, 0) != null)) {
+                    QCM questionnaire = (QCM) tableauQCM.getValueAt(ligne, colonne);
+                    vueDetails = new VueDetails((JFrame) SwingUtilities.getWindowAncestor(VueEnseignant.this), questionnaire);
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent me) {
+            ;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me) {
+            ;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent me) {
+            ;
+        }
+
+        @Override
+        public void mouseExited(MouseEvent me) {
+            ;
         }
     }
     

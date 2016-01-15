@@ -52,11 +52,12 @@ public class Enseignant extends Personne {
                 classes.add(rsClasses.getString(1));
             }
             
+            bd.terminerRequete();
+            bd.fermerBase();
+            
             // 3. On récupère les QCM de l'enseignant (passés, en cours, à venir)
             questionnaires = recupererQCM();
             
-            bd.terminerRequete();
-            bd.fermerBase();
             return true;
         }
         
@@ -84,8 +85,8 @@ public class Enseignant extends Personne {
             String  tmp_nom_qcm         = rsQCM.getString(2);
             String  tmp_description_qcm = rsQCM.getString(3);
             String  tmp_nom_classe      = rsQCM.getString(4);
-            Date    tmp_date_debut      = new Date(rsQCM.getTimestamp(5).getTime());
-            Date    tmp_date_fin        = new Date(rsQCM.getTimestamp(6).getTime());
+            Date    tmp_date_debut      = new Date((long) rsQCM.getTimestamp(5).getTime() * 1000);
+            Date    tmp_date_fin        = new Date((long) rsQCM.getTimestamp(6).getTime() * 1000);
             boolean tmp_conformite      = rsQCM.getBoolean(7);
             
             tmp.add(new QCM(tmp_id_qcm, tmp_nom_qcm, tmp_description_qcm, tmp_nom_classe, 

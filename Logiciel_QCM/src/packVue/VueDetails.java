@@ -3,9 +3,9 @@ package packVue;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,47 +15,71 @@ import javax.swing.JTable;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import packModele.Enseignant;
-
+import packModele.QCM;
 
 public class VueDetails extends javax.swing.JDialog {
-
-  
-    public VueDetails(JFrame parent) {
-        super(parent, "Voir les détails du QCM", true);
+    private final QCM questionnaire;
+    private final ArrayList<ArrayList<String>> notes;
+    
+    public VueDetails(JFrame parent, QCM questionnaire) {
+        super(parent, "Voir les détails du QCM : " + questionnaire, true);
         initComponents();
+        
+        this.questionnaire = questionnaire;
+        notes = this.questionnaire.recupererNotes();
+        this.labelNom.setText(this.questionnaire.toString());
+        
+        remplirTableau();
+        this.setVisible(true);
     }
-
+    
+    private void remplirTableau() {        
+        int i = 0;
+        tableauQCM.getTableHeader().setReorderingAllowed(false);
+        tableauQCM.getTableHeader().setResizingAllowed(false);
+        
+        tableauQCM.getColumnModel().getColumn(0).setPreferredWidth(300);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tableauQCM.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        
+        for (ArrayList<String> releve : notes) {
+            tableauQCM.setValueAt(releve.get(0) + " " + releve.get(1), i, 0);
+            tableauQCM.setValueAt(releve.get(2), i, 1);
+            
+            i++;
+        }
+    }
    
     @SuppressWarnings("unchecked")
-   
     private void initComponents() {
 
-        jPanel1 = new JPanel();
-        jLabel1 = new JLabel();
-        jLabel2 = new JLabel();
+        panneauPrincipal = new JPanel();
+        labelTitre = new JLabel();
+        labelNom = new JLabel();
         jSeparator1 = new JSeparator();
         jScrollPane1 = new JScrollPane();
-        jTable1 = new JTable();
+        tableauQCM = new JTable();
         jLabel3 = new JLabel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new Color(255, 255, 255));
 
-        jPanel1.setBackground(new Color(255, 255, 255));
+        panneauPrincipal.setBackground(new Color(255, 255, 255));
 
-        jLabel1.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel1.setText("Résultats du QCM");
+        labelTitre.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        labelTitre.setHorizontalAlignment(SwingConstants.CENTER);
+        labelTitre.setText("Résultats du QCM");
 
-        jLabel2.setFont(new Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel2.setText("[nom_qcm]");
+        labelNom.setFont(new Font("Tahoma", 1, 14)); // NOI18N
+        labelNom.setHorizontalAlignment(SwingConstants.CENTER);
+        labelNom.setText("[nom_qcm]");
 
         jScrollPane1.setBackground(new Color(255, 255, 255));
 
-        jTable1.setModel(new DefaultTableModel(
+        tableauQCM.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -90,14 +114,14 @@ public class VueDetails extends javax.swing.JDialog {
                 "Etudiant", "Note (sur 20)"
             }
         ));
-        jTable1.setSelectionBackground(new Color(255, 204, 0));
-        jTable1.setSelectionForeground(new Color(0, 0, 0));
-        jScrollPane1.setViewportView(jTable1);
+        tableauQCM.setSelectionBackground(new Color(255, 204, 0));
+        tableauQCM.setSelectionForeground(new Color(0, 0, 0));
+        jScrollPane1.setViewportView(tableauQCM);
 
         jLabel3.setIcon(new ImageIcon(getClass().getResource("/packVue/image/bandeau_bas.jpg"))); // NOI18N
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        GroupLayout jPanel1Layout = new GroupLayout(panneauPrincipal);
+        panneauPrincipal.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -109,8 +133,8 @@ public class VueDetails extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(labelTitre, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelNom, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
@@ -122,9 +146,9 @@ public class VueDetails extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(labelTitre)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(labelNom)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -137,11 +161,11 @@ public class VueDetails extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panneauPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panneauPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -149,12 +173,12 @@ public class VueDetails extends javax.swing.JDialog {
 
     
 
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelTitre;
+    private javax.swing.JLabel labelNom;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel panneauPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableauQCM;
 
 }

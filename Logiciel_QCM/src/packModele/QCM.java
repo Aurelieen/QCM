@@ -5,23 +5,28 @@
  */
 package packModele;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import logiciel_qcm.BD;
 
 /**
  *
  * @author Admin
  */
 public class QCM {
-    private int id_qcm;
-    private String nom;
-    private String description;
-    private String classe;
-    private Date date_debut;
-    private Date date_fin;
-    private boolean conformite_relative;
+    private final int id_qcm;
+    private final String nom;
+    private final String description;
+    private final String classe;
+    private final Date date_debut;
+    private final Date date_fin;
+    private final boolean conformite_relative;
     
     private ArrayList<Question> questions;
     
@@ -78,8 +83,16 @@ public class QCM {
         return nom;
     }
     
+    public int getId() {
+        return id_qcm;
+    }
+    
     public String getClasse() {
         return classe;
+    }
+    
+    public String getDateFin() {
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date_fin);
     }
     
     public String getEtat() {
@@ -93,5 +106,38 @@ public class QCM {
         }
         
         return "{Erreur}";
+    }
+    
+    @Override
+    public String toString() {
+        return nom;
+    }
+    
+    public ArrayList<ArrayList<String>> recupererNotes() {
+        ArrayList<ArrayList<String>> notes = new ArrayList<>();
+        BD bd = new BD();
+        ResultSet rsNotes;
+        
+        try {
+            rsNotes = bd.SELECT("SELECT e.prenom_etudiant, e.nom_etudiant, ra.note " +
+                                "FROM Etudiant e INNER JOIN Repond_a ra ON e.id_etudiant = ra.id_etudiant " +
+                                "WHERE ra.id_qcm = '" + this.id_qcm + "';");
+            
+            while (rsNotes.next()) {
+                ArrayList<String> releve = new ArrayList<>();
+                releve.add(rsNotes.getString(1));
+                releve.add(rsNotes.getString(2));
+                releve.add(rsNotes.getString(3));
+                
+                notes.add(releve);
+            }
+            
+            bd.terminerRequete();
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(QCM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return notes;
     }
 }

@@ -56,6 +56,7 @@ public class Personne implements Observable {
             }
         }
         
+        authentification = null;
         bd.terminerRequete();
 
         // Récupération des informations de compte
