@@ -88,6 +88,13 @@ public class VueEtudiant extends javax.swing.JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getSource() == labelActu) {
                 etudiant.notifyObservateurs("actualisation");
+            } else if ((e.getSource() == tableauCours) && (e.getClickCount() == 2)) {
+                int ligne = tableauCours.rowAtPoint(e.getPoint());
+                int colonne = tableauCours.columnAtPoint(e.getPoint());
+                
+                if ((colonne == 0) && (tableauCours.getValueAt(ligne, 0) != null)) {
+                    
+                }
             }
         }
         

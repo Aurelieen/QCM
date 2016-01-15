@@ -10,11 +10,13 @@ package packModele;
  * @author Admin
  */
 public class Reponse {
+    private int id_reponse;
     private String description;
     private boolean est_juste;
     
     // Constructeur de la réponse
-    public Reponse(String description, boolean est_juste) {
+    public Reponse(int id_reponse, String description, boolean est_juste) {
+        this.id_reponse = id_reponse;
         this.description = description;
         this.est_juste = est_juste;
     }

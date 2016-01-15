@@ -21,6 +21,7 @@ import javax.swing.JSeparator;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import packModele.Etudiant;
+import packModele.QCM;
 
 /**
  *
@@ -28,12 +29,15 @@ import packModele.Etudiant;
  */
 public class VueReponse extends JPanel {
     private Etudiant etudiant;
+    private QCM qcm;
    
-    public VueReponse(Etudiant etudiant) {
+    public VueReponse(Etudiant etudiant, QCM qcm) {
         this.etudiant = etudiant;
+        this.qcm = qcm;
         
         // Construction de la fenêtre
         initComponents();
+        labelEleve.setText(etudiant.prenommer() + " " + etudiant.nommer());
     }
     
     // Déclaration des variables des différents éléments
@@ -47,38 +51,25 @@ public class VueReponse extends JPanel {
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel labelEleve;
+    private javax.swing.JLabel labelTemps;
+    private javax.swing.JLabel labelNom;
+    private javax.swing.JLabel labelConsignes;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator separateur;
     // Fin de déclaration de variables des différents éléments
-    
-    
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {  
-    }
-
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {   
-    }
-
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {    
-    }
    
     private void initComponents() {
 
         jLabel1 = new JLabel();
-        jLabel2 = new JLabel();
-        jLabel3 = new JLabel();
-        jLabel4 = new JLabel();
-        jLabel5 = new JLabel();
+        labelEleve = new JLabel();
+        labelTemps = new JLabel();
+        labelNom = new JLabel();
+        labelConsignes = new JLabel();
         jScrollPane1 = new JScrollPane();
         jPanel1 = new JPanel();
         jLabel6 = new JLabel();
@@ -93,22 +84,22 @@ public class VueReponse extends JPanel {
         jCheckBox7 = new JCheckBox();
         jCheckBox8 = new JCheckBox();
         jButton1 = new JButton();
-        jSeparator2 = new JSeparator();
+        separateur = new JSeparator();
 
         setBackground(new Color(255, 255, 255));
 
         jLabel1.setIcon(new ImageIcon(getClass().getResource("/packVue/image/bandeau_bas.jpg"))); 
 
-        jLabel2.setText("  Élève : [prénom] [nom]");
+        labelEleve.setText("  Élève : [prénom] [nom]");
 
-        jLabel3.setHorizontalAlignment(SwingConstants.RIGHT);
-        jLabel3.setText("Temps restant : 1 h 17 min 35 s  ");
+        labelTemps.setHorizontalAlignment(SwingConstants.RIGHT);
+        labelTemps.setText("Temps restant : 1 h 17 min 35 s  ");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); 
-        jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabel4.setText("[nom_qcm]");
+        labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); 
+        labelNom.setHorizontalAlignment(SwingConstants.CENTER);
+        labelNom.setText("[nom_qcm]");
 
-        jLabel5.setText("  Consignes : [description_qcm]");
+        labelConsignes.setText("  Consignes : [description_qcm]");
 
         jScrollPane1.setBackground(new Color(255, 255, 255));
         jScrollPane1.setBorder(null);
@@ -122,22 +113,12 @@ public class VueReponse extends JPanel {
 
         jCheckBox1.setBackground(new Color(255, 255, 255));
         jCheckBox1.setText("Elementum");
-        jCheckBox1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
 
         jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
         jCheckBox2.setText("Dignissim");
 
         jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
         jCheckBox3.setText("Pellentesque");
-        jCheckBox3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new Font("Tahoma", 1, 11)); 
         jLabel7.setText("2. Nullam in ante et diam faucibus varius quis nec eros. Fusce arcu felis, vestibulum in commodo");
@@ -148,11 +129,6 @@ public class VueReponse extends JPanel {
 
         jCheckBox4.setBackground(new Color(255, 255, 255));
         jCheckBox4.setText("Réponse A");
-        jCheckBox4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
-            }
-        });
 
         jCheckBox5.setBackground(new Color(255, 255, 255));
         jCheckBox5.setText("Réponse B");
@@ -167,11 +143,6 @@ public class VueReponse extends JPanel {
         jCheckBox8.setText("Réponse E");
 
         jButton1.setText("Valider les réponses");
-        jButton1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -240,36 +211,34 @@ public class VueReponse extends JPanel {
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelConsignes, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNom, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelEleve, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(labelTemps, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(separateur, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
                         .addGap(96, 96, 96)))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelTemps, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelEleve, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelNom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+                .addComponent(separateur, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addComponent(jLabel5)
+                .addComponent(labelConsignes)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 452, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)

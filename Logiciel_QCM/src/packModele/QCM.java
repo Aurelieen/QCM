@@ -43,16 +43,18 @@ public class QCM {
         this.conformite_relative = conformite_relative;
         
         this.questions = new ArrayList();
+        construireQuestions();
     }
     
     // Méthodes du QCM
     public boolean ajoutQuestion(String description) {
-        if (!description.isEmpty()) {
+        /* if (!description.isEmpty()) {
             questions.add(new Question(description));
             return true;
         } else {
             return false;
-        }
+        } */
+        return true;
     }
     
     public boolean estValide() {
@@ -139,5 +141,26 @@ public class QCM {
         }
         
         return notes;
+    }
+    
+    // Récupérer les questions d'un QCM 
+    private void construireQuestions() {
+        try {
+            BD bd = new BD();
+            ResultSet rsQuestions;
+            
+            rsQuestions = bd.SELECT("SELECT id_question, description_question "
+                                  + "FROM Question "
+                                  + "WHERE id_qcm LIKE '" + this.id_qcm + "';");
+            
+            while (rsQuestions.next()) {
+                questions.add(new Question(rsQuestions.getInt(1), id_qcm, rsQuestions.getString(2)));
+            }
+            
+            bd.terminerRequete();
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(QCM.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
