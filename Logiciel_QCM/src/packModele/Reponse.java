@@ -20,4 +20,12 @@ public class Reponse {
         this.description = description;
         this.est_juste = est_juste;
     }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public boolean est_juste() {
+        return est_juste;
+    }
 }

@@ -13,7 +13,7 @@ import packModele.Personne;
  * @author Admin
  */
 public abstract class ControleurAbstrait {
-    protected Personne personne;                    // Accès au modèle depuis le contrôleur.
+    protected Personne personne;                        // Accès au modèle depuis le contrôleur.
     
     // Constructeur et affectation de personne
     public ControleurAbstrait(Personne personne) {

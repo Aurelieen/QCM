@@ -23,16 +23,15 @@ public class BD {
         // Chargement du pilote en mémoire
         try {
             Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
-            cnx = DriverManager.getConnection("jdbc:sqlite:" + nom);
+            if (cnx == null)
+                cnx = DriverManager.getConnection("jdbc:sqlite:" + nom);
+            else
+                System.out.println("La connexion n'est pas vide !");
         } catch (SQLException ex) {
             Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,9 +64,11 @@ public class BD {
     
     public void terminerRequete() throws SQLException {
         lien.close();
+        lien = null;
     }
     
     public void fermerBase() throws SQLException {
         cnx.close();
+        cnx = null;
     }
 }

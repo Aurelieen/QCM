@@ -22,9 +22,11 @@ import packModele.QCM;
 
 public class VueEtudiant extends javax.swing.JPanel {
     private final Etudiant etudiant;
+    private QCM qcm_envoi;
     
     public VueEtudiant(Etudiant etudiant) {
         this.etudiant = etudiant;
+        this.qcm_envoi = null;
         
         initComponents();
         labelBienvenue.setText("Bienvenue, " + this.etudiant.prenommer() + " " + this.etudiant.nommer());
@@ -93,7 +95,8 @@ public class VueEtudiant extends javax.swing.JPanel {
                 int colonne = tableauCours.columnAtPoint(e.getPoint());
                 
                 if ((colonne == 0) && (tableauCours.getValueAt(ligne, 0) != null)) {
-                    
+                    qcm_envoi = (QCM) tableauCours.getValueAt(ligne, 0);
+                    etudiant.notifyObservateurs("reponse");
                 }
             }
         }
@@ -102,6 +105,10 @@ public class VueEtudiant extends javax.swing.JPanel {
         @Override public void mouseReleased(MouseEvent e) { ; }
         @Override public void mouseEntered(MouseEvent e) { ; }
         @Override public void mouseExited(MouseEvent e) { ; } 
+    }
+    
+    public QCM transmettreQCM() {
+        return qcm_envoi;
     }
     
     @SuppressWarnings("unchecked")

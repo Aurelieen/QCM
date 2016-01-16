@@ -43,6 +43,14 @@ public class Question {
         return true;
     }
     
+    public String getDescription() {
+        return description;
+    }
+    
+    public ArrayList<Reponse> getReponses() {
+        return reponses;
+    }
+    
     private void construireReponses() {
         try {
             BD bd = new BD();

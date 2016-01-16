@@ -16,6 +16,7 @@ import packControleur.ControleurAbstrait;
 import packModele.Enseignant;
 import packModele.Etudiant;
 import packModele.Personne;
+import packModele.QCM;
 
 /**
  *
@@ -81,6 +82,15 @@ public class Fenetre extends JFrame implements Observateur {
                 this.remove(vueEtudiant);
                 this.afficherEtudiant();
                 break;
+            case "reponse":
+                QCM qcm_transmis = vueEtudiant.transmettreQCM();
+                this.remove(vueEtudiant);
+                this.afficherReponse((Etudiant) personne, qcm_transmis);
+                break;
+            case "retourEtu":
+                this.remove(vueReponse);
+                this.afficherEtudiant();
+                break;
         }
     }
     
@@ -96,5 +106,15 @@ public class Fenetre extends JFrame implements Observateur {
         this.setContentPane(vueEtudiant);
         this.setTitle("Interface Etudiant — QCM");
         this.pack();
+    }
+    
+    public void afficherReponse(Etudiant e, QCM q) {
+        vueReponse = new VueReponse(e, q, contrReponse);
+        this.setContentPane(vueReponse);
+        this.setTitle("Répondre — " + q.getNom());
+        this.pack();
+        
+        // Adapter la hauteur du panneau défilant après le pack()
+        vueReponse.rehausser();
     }
 }

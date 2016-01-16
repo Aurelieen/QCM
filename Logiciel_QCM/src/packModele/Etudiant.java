@@ -66,8 +66,42 @@ public class Etudiant extends Personne {
     }
     
     // Méthodes de l'étudiant
-    public float repondreQCM() {
-        return (float) 0.0;
+    public float repondreQCM(QCM qcm, ArrayList<Boolean> reponses) {
+        int i = 0;
+        float note = 0;
+        
+        for (Question question : qcm.getQuestions()) {
+            if (qcm.getConformiteRelative()) {
+                System.out.println("Pas encore géré —");
+            } else {
+                boolean question_juste = true;
+                
+                for (Reponse reponse : question.getReponses()) {
+                    if (reponse.est_juste() != reponses.get(i))
+                        question_juste = false;
+                    
+                    i++;
+                }
+                
+                if (question_juste)
+                    note++;
+            }  
+        }
+        
+        note = (note * 20) / (float) qcm.getQuestions().size();
+        
+        // Écriture de la note dans la base de données
+        try {
+            BD bd = new BD();
+            bd.ecrire("INSERT INTO Repond_a VALUES (" + qcm.getId() + ", " + this.id_etudiant + ", " + note + ");");
+            
+            bd.terminerRequete();
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return note;
     }
     
     public ArrayList<QCM> recupererQCM() {

@@ -97,6 +97,22 @@ public class QCM {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date_fin);
     }
     
+    public Date getDateFin_D() {
+        return date_fin;
+    }
+    
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+    
+    public boolean getConformiteRelative() {
+        return conformite_relative;
+    }
+    
+    public String getConsignes() {
+        return "  Consignes : " + description;
+    }
+    
     public String getEtat() {
         switch (estActuel()) {
             case -1:

@@ -73,6 +73,10 @@ public class Personne implements Observable {
                 nom = informations.getString(1);
                 prenom = informations.getString(2);
                 System.out.println(nom);
+                
+                bd.terminerRequete();
+                bd.fermerBase();
+                
                 return true;
             }
             
