@@ -47,15 +47,14 @@ public class QCM {
     }
     
     // Méthodes du QCM
-    public boolean ajoutQuestion(String description) {
-        /* if (!description.isEmpty()) {
+    /* public boolean ajoutQuestion(String description) {
+        if (!description.isEmpty()) {
             questions.add(new Question(description));
             return true;
         } else {
             return false;
-        } */
-        return true;
-    }
+        }
+    } */
     
     public boolean estValide() {
         return true;

@@ -79,9 +79,9 @@ public class VueEnseignant extends javax.swing.JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == boutonCreation) {
-                System.out.println("Création d'un QCM");
+                enseignant.notifyObservateurs("creerQCM");
             } else if (e.getSource() == tableauQCM) {
-                System.out.println("Mort @ Mort");
+                ;
             }
         }
 

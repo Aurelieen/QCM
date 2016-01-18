@@ -95,11 +95,6 @@ public class VueAuth extends JPanel {
 
         champPseudo.setToolTipText("");
         champPseudo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        champPseudo.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         labelUtilisateur.setText("Utilisateur :");
 
@@ -177,10 +172,6 @@ public class VueAuth extends JPanel {
                         .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         );
         
-    }
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-   
     }
 
     private javax.swing.JButton boutonConnexion;

@@ -21,6 +21,11 @@ public class Reponse {
         this.est_juste = est_juste;
     }
     
+    public Reponse(String description, boolean est_juste) {
+        this.description = description;
+        this.est_juste = est_juste;       
+    }
+    
     public String getDescription() {
         return description;
     }

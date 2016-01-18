@@ -18,7 +18,7 @@ import logiciel_qcm.BD;
 public class Enseignant extends Personne {
     // Attributs de la classe Enseignant
     private int id_enseignant;
-    public ArrayList<String> classes;
+    private ArrayList<String> classes;
     private ArrayList<QCM> questionnaires;      // QCM que l'enseignant a créés.
     
     // Constructeur de l'enseignant
@@ -109,5 +109,9 @@ public class Enseignant extends Personne {
     
     public ArrayList<QCM> getQCM() {
         return questionnaires;
+    }
+    
+    public ArrayList<String> getClasses() {
+        return classes;
     }
 }

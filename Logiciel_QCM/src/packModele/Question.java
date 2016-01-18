@@ -32,15 +32,20 @@ public class Question {
         construireReponses();
     }
     
+    public Question(int id_qcm, String description) {
+        this.id_qcm = id_qcm;
+        this.description = description;
+        this.reponses = new ArrayList();
+    }
+    
     // Méthodes de la question
     public boolean ajoutReponse(String description, boolean est_juste) {
-        /* if (!description.isEmpty()) {
+        if (!description.isEmpty()) {
             reponses.add(new Reponse(description, est_juste));
             return true;
         } else {
             return false;
-        } */
-        return true;
+        }
     }
     
     public String getDescription() {

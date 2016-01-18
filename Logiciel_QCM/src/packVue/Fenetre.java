@@ -91,6 +91,14 @@ public class Fenetre extends JFrame implements Observateur {
                 this.remove(vueReponse);
                 this.afficherEtudiant();
                 break;
+            case "retourEns":
+                this.remove(vueCreation);
+                this.afficherEnseignant();
+                break;
+            case "creerQCM":
+                this.remove(vueEnseignant);
+                this.afficherCreation((Enseignant) personne);
+                break;
         }
     }
     
@@ -116,5 +124,15 @@ public class Fenetre extends JFrame implements Observateur {
         
         // Adapter la hauteur du panneau défilant après le pack()
         vueReponse.rehausser();
+    }
+    
+    public void afficherCreation(Enseignant e) {
+        vueCreation = new VueCreation(e, contrAjout);
+        this.setContentPane(vueCreation);
+        this.setTitle("Créer un QCM — " + e.prenommer() + " " + e.nommer());
+        this.pack();
+        
+        // Adapter la hauteur du panneau défilant après le pack()
+        vueCreation.rehausser();
     }
 }
