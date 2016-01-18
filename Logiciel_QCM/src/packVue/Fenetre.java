@@ -8,6 +8,7 @@ package packVue;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import packControleur.ContrAjout;
 import packControleur.ContrAuth;
 import packControleur.ContrReponse;
@@ -68,6 +69,9 @@ public class Fenetre extends JFrame implements Observateur {
     public void update(String code) {
         switch (code) {
             case "connexionEchec":
+                JOptionPane jop1;
+                jop1 = new JOptionPane();
+                jop1.showMessageDialog(null, "Le nom d'utilisateur ou le mot de passe est incorrect.", "Informations incorrectes", JOptionPane.ERROR_MESSAGE);
                 personne = vueAuth.getPersonne();
                 break;
             case "connexionEns":
