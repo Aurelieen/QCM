@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -178,6 +179,9 @@ public class VueReponse extends JPanel {
             if (ae.getSource() == boutonEnvoi) {
                 if (qcm.getDateFin_D().after(new Date())) {
                     if (reponsesOubliees() && !deja_prevenu) {
+                        JOptionPane jop1;
+                        jop1 = new JOptionPane();
+                        jop1.showMessageDialog(null, "Vous avez des cases non cochées à certaines questions, est-ce volontaire ? \n Attention : Si vous poursuivez sans cocher de réponses vous serez pénalisé.", "Saisie incomplète", JOptionPane.WARNING_MESSAGE);
                         deja_prevenu = true;
                         // Gérer le cas où on n'a pas tout coché
                     } else {
