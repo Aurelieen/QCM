@@ -45,7 +45,7 @@ public class ContrAjout extends ControleurAbstrait {
         int i = 6;
         while (i < donnees.size()) {            
             int nb_reponses = Integer.parseInt(donnees.get(i).substring(1, (int) (1 + Integer.parseInt(donnees.get(i).substring(0, 1)))));
-            qcm.ajoutQuestion(donnees.get(i).substring((int) (Math.log(nb_reponses)/Math.log(10)) + 1));
+            qcm.ajoutQuestion(donnees.get(i).substring(1 + Integer.parseInt(donnees.get(i).substring(0, 1))));
             
             for (int j = 0; j < nb_reponses; j++) {                
                 i++;
