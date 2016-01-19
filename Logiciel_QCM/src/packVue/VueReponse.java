@@ -75,7 +75,7 @@ public class VueReponse extends JPanel {
         initComponents();
         labelEleve.setText("  " + etudiant.prenommer() + " " + etudiant.nommer());
         labelNom.setText(qcm.getNom());
-        labelConsignes.setText(qcm.getConsignes());
+        labelConsignes.setText("  Consignes : " + qcm.getConsignes());
         labelTemps.setFont(new Font("Tahoma", Font.PLAIN, 11));
         
         // Construction des énoncés et des réponses possibles
