@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logiciel_qcm.BD;
 
 /**
@@ -65,10 +67,66 @@ public class Enseignant extends Personne {
     }
     
     // Méthodes de l'enseignant
-    public boolean creerQCM(String nom, String description,
+    public QCM creerQCM(String nom, String description,
                             String classe, Date date_debut,
-                            Date date_fin, boolean conformite_relative) {
-        return true;
+                            Date date_fin, boolean conformite_relative) {    
+        
+        description = (description == null) ? "Aucune." : description;
+        return new QCM(nom, description, classe, date_debut, date_fin, conformite_relative);
+    }
+    
+    public void validerQCM(QCM qcm) {
+        System.out.println("Nombre de QCM avant création : " + this.getQCM().size());
+        
+        try {
+            int classeId = qcm.getClasseId(this.id_enseignant);
+            BD bd = new BD();
+            
+            // Insertion du QCM dans la base
+            bd.ecrire("INSERT INTO QCM(id_enseignant, id_classe, nom_qcm, description_qcm, date_debut, date_fin, conformite_relative) "
+                            + "VALUES (" + this.id_enseignant + ", " + classeId
+                            + ", '" + qcm.getNom().replaceAll("'", "''") + "', '" + qcm.getConsignes().replaceAll("'", "''")
+                            + "', " + (qcm.getDateDebut_D().getTime() / 1000) + ", " + (qcm.getDateFin_D().getTime() / 1000)
+                            + ", " + ((qcm.getConformiteRelative()) ? 1 : 0) + ");");
+            
+            bd.terminerRequete();
+            
+            // Récupération de l'identifiant du QCM inséré
+            ResultSet rsLast;
+            rsLast = bd.SELECT("SELECT MAX(id_qcm) FROM QCM;");
+            while (rsLast.next())
+                qcm.setId(rsLast.getInt(1));
+            
+            bd.terminerRequete();
+            
+            // Insertion des questions dans la base de données
+            for (Question question : qcm.getQuestions()) {
+                bd.ecrire("INSERT INTO Question(id_qcm, description_question) "
+                                     + "VALUES (" + qcm.getId() + ", '" + question.getDescription().replaceAll("'", "''") + "');");
+                
+                bd.terminerRequete();
+                
+                // Récupération de l'identifiant de la question
+                ResultSet rsQuestion;
+                rsQuestion = bd.SELECT("SELECT MAX(id_question) FROM Question;");
+                while (rsQuestion.next())
+                    question.setId(rsQuestion.getInt(1));
+                
+                bd.terminerRequete();
+                
+                // Insertion des réponses dans la base de données
+                for (Reponse reponse : question.getReponses()) {
+                    bd.ecrire("INSERT INTO Reponse(id_question, description_reponse, est_juste) "
+                                        + "VALUES (" + question.getId() + ", '" + reponse.getDescription().replaceAll("'", "''") + "', " + ((reponse.est_juste()) ? 1 : 0) + ");");
+                    
+                    bd.terminerRequete();
+                }
+            }
+            
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(Enseignant.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public ArrayList<QCM> recupererQCM() throws SQLException {
@@ -98,8 +156,40 @@ public class Enseignant extends Personne {
         return tmp;
     }
     
-    public void supprimerQCM() {
-        ;
+    public void supprimerQCM(int id_qcm) {
+        try {
+            BD bd = new BD();
+            
+            // Suppression des réponses des questions associées au QCM
+            System.out.println("DELETE FROM Reponse "
+                    + "WHERE id_question IN (SELECT q.id_question "
+                                          + "FROM Question q "
+                                          + "WHERE q.id_qcm LIKE '" + id_qcm + "');");
+            bd.ecrire("DELETE FROM Reponse "
+                    + "WHERE id_question IN (SELECT q.id_question "
+                                          + "FROM Question q "
+                                          + "WHERE q.id_qcm LIKE '" + id_qcm + "');");
+            bd.terminerRequete();
+            
+            // Suppression des questions qui sont associées au QCM
+            bd.ecrire("DELETE FROM Question "
+                    + "WHERE id_qcm LIKE '" + id_qcm + "';");
+            bd.terminerRequete();
+            
+            // Suppression des liens Élève – QCM
+            bd.ecrire("DELETE FROM Repond_a "
+                    + "WHERE id_qcm LIKE '" + id_qcm + "';");
+            bd.terminerRequete();
+            
+            // Suppression du QCM en lui-même
+            bd.ecrire("DELETE FROM QCM "
+                    + "WHERE id_qcm LIKE '" + id_qcm + "';");
+            bd.terminerRequete();
+            
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(Enseignant.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
@@ -109,6 +199,10 @@ public class Enseignant extends Personne {
     
     public ArrayList<QCM> getQCM() {
         return questionnaires;
+    }
+    
+    public void setQCM(ArrayList<QCM> qcm) {
+        this.questionnaires = qcm;
     }
     
     public ArrayList<String> getClasses() {

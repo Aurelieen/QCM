@@ -52,6 +52,14 @@ public class Question {
         return description;
     }
     
+    public int getId() {
+        return this.id_question;
+    }
+    
+    public void setId(int id_question) {
+        this.id_question = id_question;
+    }
+    
     public ArrayList<Reponse> getReponses() {
         return reponses;
     }

@@ -20,7 +20,7 @@ import logiciel_qcm.BD;
  * @author Admin
  */
 public class QCM {
-    private final int id_qcm;
+    private       int id_qcm;
     private final String nom;
     private final String description;
     private final String classe;
@@ -42,19 +42,32 @@ public class QCM {
         this.date_fin = date_fin;
         this.conformite_relative = conformite_relative;
         
-        this.questions = new ArrayList();
+        this.questions = new ArrayList<>();
         construireQuestions();
     }
     
+    public QCM(String nom, String description, String classe,
+               Date date_debut, Date date_fin, boolean conformite_relative) {
+        this.id_qcm = -1;
+        this.nom = nom;
+        this.description = description;
+        this.classe = classe;
+        this.date_debut = date_debut;
+        this.date_fin = date_fin;
+        this.conformite_relative = conformite_relative;
+        
+        this.questions = new ArrayList<>();
+    }
+    
     // Méthodes du QCM
-    /* public boolean ajoutQuestion(String description) {
+    public boolean ajoutQuestion(String description) {
         if (!description.isEmpty()) {
-            questions.add(new Question(description));
+            questions.add(new Question(this.id_qcm, description));
             return true;
         } else {
             return false;
         }
-    } */
+    }
     
     public boolean estValide() {
         return true;
@@ -88,12 +101,43 @@ public class QCM {
         return id_qcm;
     }
     
+    public void setId(int id_qcm) {
+        this.id_qcm = id_qcm;
+    }
+    
     public String getClasse() {
         return classe;
     }
     
+    public int getClasseId(int id_enseignant) {
+        int id_classe = -1;
+        
+        try {
+            BD bd = new BD();
+            ResultSet rsClasse;
+            
+            rsClasse = bd.SELECT("SELECT c.id_classe "
+                               + "FROM Classe c INNER JOIN Enseigne_dans ed ON c.id_classe = ed.id_classe "
+                               + "WHERE ed.id_enseignant LIKE '" + id_enseignant + "' AND c.nom_classe LIKE '" + classe + "';");
+            
+            while (rsClasse.next())
+                id_classe = rsClasse.getInt(1);
+            
+            bd.terminerRequete();
+            bd.fermerBase();
+        } catch (SQLException ex) {
+            Logger.getLogger(QCM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return id_classe;
+    }
+    
     public String getDateFin() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date_fin);
+    }
+    
+    public Date getDateDebut_D() {
+        return date_debut;
     }
     
     public Date getDateFin_D() {

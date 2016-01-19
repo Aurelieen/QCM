@@ -331,6 +331,7 @@ public class VueCreation extends JPanel {
             }
             
             // Envoi des données au contrôleur pour le traitement
+            contrAjout.donnerEnseignant(enseignant);
             contrAjout.control(donnees);
             enseignant.notifyObservateurs("retourEns");
         } else
@@ -362,7 +363,7 @@ public class VueCreation extends JPanel {
                     }
                 }
                 
-                donnees.set(indice, nombreReponses + formQuestions.get(i).getText());
+                donnees.set(indice, Integer.toString(((int) (Math.log(nombreReponses) / Math.log(10)) + 1)) + Integer.toString(nombreReponses) + formQuestions.get(i).getText());
             }
         }
         

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +21,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+import packControleur.ContrSuppr;
+import packControleur.ControleurAbstrait;
 
 import packModele.Enseignant;
 import packModele.QCM;
@@ -32,13 +35,12 @@ public class VueEnseignant extends javax.swing.JPanel {
     private final Enseignant enseignant;  
     private VueDetails vueDetails;
     
-    /**
-     * Creates new form PanneauEnseignant
-     * @param enseignant
-     */
-    public VueEnseignant(Enseignant enseignant) {
+    private final ContrSuppr contrSuppr;
+    
+    public VueEnseignant(Enseignant enseignant, ControleurAbstrait contrSuppr) {
         this.enseignant = enseignant;
-        
+        this.contrSuppr = (ContrSuppr) contrSuppr;
+                
         initComponents();
         labelBienvenue.setText("Bienvenue, " + enseignant.prenommer() + " " + enseignant.nommer());
         boutonCreation.addActionListener(new Ecouteur_AccesGestion());
@@ -48,7 +50,8 @@ public class VueEnseignant extends javax.swing.JPanel {
         remplirTableau();
     }
     
-    private void remplirTableau() {
+    public void remplirTableau() {
+        System.out.println("CONSTRUCTION DU TABLEAU " + enseignant.getQCM().size());
         int i = 0;
         tableauQCM.getTableHeader().setReorderingAllowed(false);
         tableauQCM.getTableHeader().setResizingAllowed(false);
@@ -72,6 +75,11 @@ public class VueEnseignant extends javax.swing.JPanel {
 
             i++;
         }
+        
+        tableauQCM.setValueAt(null, i, 0);
+        tableauQCM.setValueAt(null, i, 1);
+        tableauQCM.setValueAt(null, i, 2);
+        tableauQCM.setValueAt(null, i, 3);
     }
     
     public class Ecouteur_AccesGestion implements ActionListener, MouseListener {
@@ -94,6 +102,15 @@ public class VueEnseignant extends javax.swing.JPanel {
                 if ((colonne == 0) && (tableauQCM.getValueAt(ligne, 0) != null)) {
                     QCM questionnaire = (QCM) tableauQCM.getValueAt(ligne, colonne);
                     vueDetails = new VueDetails((JFrame) SwingUtilities.getWindowAncestor(VueEnseignant.this), questionnaire);
+                }
+                
+                if ((colonne == 3) && (tableauQCM.getValueAt(ligne, 3) != null)) {
+                    QCM questionnaire = (QCM) tableauQCM.getValueAt(ligne, 0);
+                    ArrayList<String> donnees = new ArrayList<>();
+                    
+                    donnees.add(Integer.toString(questionnaire.getId()));
+                    contrSuppr.donnerEnseignant(enseignant);
+                    contrSuppr.control(donnees);
                 }
             }
         }

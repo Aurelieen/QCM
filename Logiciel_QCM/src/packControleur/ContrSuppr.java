@@ -6,6 +6,7 @@
 package packControleur;
 
 import java.util.ArrayList;
+import packModele.Enseignant;
 import packModele.Personne;
 
 /**
@@ -13,12 +14,20 @@ import packModele.Personne;
  * @author Admin
  */
 public class ContrSuppr extends ControleurAbstrait {
+    private Enseignant enseignant;
+    
     public ContrSuppr(Personne personne) {
         super(personne);
     }
 
     @Override
     public Object control(ArrayList<String> donnees) {
+        enseignant.supprimerQCM(Integer.parseInt(donnees.get(0)));
+        enseignant.notifyObservateurs("actualisationEns");
         return null;
+    }
+    
+    public void donnerEnseignant(Enseignant enseignant) {
+        this.enseignant = enseignant;
     }
 }

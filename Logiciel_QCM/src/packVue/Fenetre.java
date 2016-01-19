@@ -5,7 +5,10 @@
  */
 package packVue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -99,6 +102,10 @@ public class Fenetre extends JFrame implements Observateur {
                 this.remove(vueCreation);
                 this.afficherEnseignant();
                 break;
+            case "actualisationEns":
+                this.remove(vueEnseignant);
+                this.afficherEnseignant();
+                break;
             case "creerQCM":
                 this.remove(vueEnseignant);
                 this.afficherCreation((Enseignant) personne);
@@ -107,9 +114,20 @@ public class Fenetre extends JFrame implements Observateur {
     }
     
     public void afficherEnseignant() {
-        vueEnseignant = new VueEnseignant((Enseignant) personne);
+        vueEnseignant = new VueEnseignant((Enseignant) personne, contrSuppr);
         this.setContentPane(vueEnseignant);
         this.setTitle("Interface Enseignant — QCM");
+        this.pack();
+        
+        // Réafficher le tableau après un QCM
+        Enseignant e = (Enseignant) personne;
+        try {
+            e.setQCM(e.recupererQCM());
+        } catch (SQLException ex) {
+            Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        vueEnseignant.remplirTableau();
         this.pack();
     }
     

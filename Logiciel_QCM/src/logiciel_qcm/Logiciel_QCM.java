@@ -42,5 +42,4 @@ public class Logiciel_QCM {
         // Création de la fenêtre
         Fenetre f = new Fenetre(p, contrAuth, contrAjout, contrReponse, contrSuppr);
     }
-    
 }

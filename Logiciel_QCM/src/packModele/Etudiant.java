@@ -167,15 +167,18 @@ public class Etudiant extends Personne {
     
     public float getMoyenne() {
         float moyenne = 0;
+        int nbQuestionnaires = 0;
+        
         for (QCM qcm : questionnaires) {
             String note = getNote(qcm);
             if (!"Non noté.".equals(note)) {
                 moyenne += Float.parseFloat(note);
+                nbQuestionnaires++;
             }
         }
         
-        if (questionnaires.size() > 0) {
-            return (moyenne /= (float) questionnaires.size());
+        if (nbQuestionnaires > 0) {
+            return (moyenne /= (float) nbQuestionnaires);
         } else return (float) 0;
     }
     
