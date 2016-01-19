@@ -69,10 +69,36 @@ public class Etudiant extends Personne {
     public float repondreQCM(QCM qcm, ArrayList<Boolean> reponses) {
         int i = 0;
         float note = 0;
+        float nb_points_cr = 0;
         
         for (Question question : qcm.getQuestions()) {
             if (qcm.getConformiteRelative()) {
-                System.out.println("Pas encore géré —");
+                /*
+                    Explications du fonctionnement de la conformité relative.
+                        - Chaque question a pour nombre de points son nombre de réponses justes.
+                        - Si l'étudiant coche et a juste :      +1 POINT.
+                        - Si l'étudiant coche et a faux :       -2 POINTS.
+                        - Si l'étudiant ne coche pas la case :  0 POINT.
+                
+                    Avec une règle sur trois, on ramène ensuite la note /20.
+                */
+                
+                for (Reponse reponse : question.getReponses())
+                    if (reponse.est_juste())
+                        nb_points_cr++;
+                
+                for (Reponse reponse : question.getReponses()) {
+                    int nb_points = 0;
+                    if (reponses.get(i))
+                        if (reponses.get(i) != reponse.est_juste())
+                            nb_points -= 2;
+                        else
+                            nb_points += 1;
+                    
+                    note += nb_points;
+                }
+                
+                note = (note < 0) ? 0 : note;
             } else {
                 boolean question_juste = true;
                 
@@ -88,7 +114,10 @@ public class Etudiant extends Personne {
             }  
         }
         
-        note = (note * 20) / (float) qcm.getQuestions().size();
+        if (qcm.getConformiteRelative())
+            note = (note * 20) / (float) nb_points_cr;
+        else
+            note = (note * 20) / (float) qcm.getQuestions().size();
         
         // Écriture de la note dans la base de données
         try {

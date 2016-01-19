@@ -51,7 +51,6 @@ public class VueEnseignant extends javax.swing.JPanel {
     }
     
     public void remplirTableau() {
-        System.out.println("CONSTRUCTION DU TABLEAU " + enseignant.getQCM().size());
         int i = 0;
         tableauQCM.getTableHeader().setReorderingAllowed(false);
         tableauQCM.getTableHeader().setResizingAllowed(false);

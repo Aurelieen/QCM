@@ -153,7 +153,7 @@ public class QCM {
     }
     
     public String getConsignes() {
-        return "  Consignes : " + description;
+        return description;
     }
     
     public String getEtat() {
